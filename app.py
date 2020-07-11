@@ -90,7 +90,7 @@ def render_booking(id_teacher, day, time):
     return render_template(
             "booking.html",
             form=form,
-            teacher=ReadData.teachers.get(id_teacher, ""),
+            teacher=ReadData.teachers[id_teacher],
             day=ReadData.day_week.get(day, ""),
             time=time,
     )

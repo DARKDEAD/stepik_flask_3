@@ -11,22 +11,22 @@ app.config["SECRET_KEY"] = "xv3gavkxc04n3mzx7oksd6q"
 @app.route("/")
 def render_index():
     return render_template(
-        "index.html",
-        teachers=random.sample(ReadData.teachers, 6),
-        pic_goal=ReadData.pic_goal,
-        goals=ReadData.goals,
-        href_goal=ReadData.href_goal,
+            "index.html",
+            teachers=random.sample(ReadData.teachers, 6),
+            pic_goal=ReadData.pic_goal,
+            goals=ReadData.goals,
+            href_goal=ReadData.href_goal,
     )
 
 
 @app.route("/all_teachers/")
 def render_all_teachers():
     return render_template(
-        "index.html",
-        teachers=ReadData.teachers,
-        pic_goal=ReadData.pic_goal,
-        goals=ReadData.goals,
-        href_goal=ReadData.href_goal,
+            "index.html",
+            teachers=ReadData.teachers,
+            pic_goal=ReadData.pic_goal,
+            goals=ReadData.goals,
+            href_goal=ReadData.href_goal,
     )
 
 
@@ -38,21 +38,21 @@ def render_search(goal):
             teachers_goals.append(g)
 
     return render_template(
-        "goal.html",
-        teachers=teachers_goals,
-        goal=ReadData.goals[goal],
-        pic_goal=ReadData.pic_goal.get(goal, ""),
+            "goal.html",
+            teachers=teachers_goals,
+            goal=ReadData.goals[goal],
+            pic_goal=ReadData.pic_goal.get(goal, ""),
     )
 
 
 @app.route("/profiles/<int:id_teacher>/")
 def render_profile(id_teacher):
     return render_template(
-        "profile.html",
-        teacher=ReadData.teachers[id_teacher],
-        goals=ReadData.goals,
-        day_week=ReadData.day_week,
-        id_teacher=id_teacher,
+            "profile.html",
+            teacher=ReadData.teachers[id_teacher],
+            goals=ReadData.goals,
+            day_week=ReadData.day_week,
+            id_teacher=id_teacher,
     )
 
 
@@ -69,16 +69,16 @@ def render_request_done():
         goal = form.goals.data
 
         req = {
-            "name": form.clientName.data,
+            "name" : form.clientName.data,
             "phone": form.clientPhone.data,
-            "time": request.form.get("time"),
-            "goal": goal,
+            "time" : request.form.get("time"),
+            "goal" : goal,
         }
 
         save_booking("request.json", req)
 
         return render_template(
-            "request_done.html", goal=ReadData.goals.get(goal, ""), form=form
+                "request_done.html", goal=ReadData.goals.get(goal, ""), form=form
         )
     else:
         return render_template("request.html", form=form)
@@ -88,11 +88,11 @@ def render_request_done():
 def render_booking(id_teacher, day, time):
     form = BookingForm()
     return render_template(
-        "booking.html",
-        form=form,
-        teacher=ReadData.teachers.get(id_teacher, ""),
-        day=ReadData.day_week.get(day, ""),
-        time=time,
+            "booking.html",
+            form=form,
+            teacher=ReadData.teachers.get(id_teacher, ""),
+            day=ReadData.day_week.get(day, ""),
+            time=time,
     )
 
 
@@ -107,21 +107,21 @@ def render_booking_done():
         phone = form.clientPhone.data
 
         booking = {
-            "name": name,
-            "phone": phone,
-            "day_week": day,
-            "time": time,
+            "name"      : name,
+            "phone"     : phone,
+            "day_week"  : day,
+            "time"      : time,
             "teacher_id": teacher["id"],
         }
 
         save_booking("booking.json", booking)
 
         return render_template(
-            "booking_done.html", name=name, phone=phone, day=day, time=time
+                "booking_done.html", name=name, phone=phone, day=day, time=time
         )
     else:
         return render_template(
-            "booking.html", form=form, teacher=teacher, day=day, time=time
+                "booking.html", form=form, teacher=teacher, day=day, time=time
         )
 
 

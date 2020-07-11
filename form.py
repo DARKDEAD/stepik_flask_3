@@ -6,6 +6,7 @@ from wtforms import StringField
 from wtforms.validators import DataRequired
 from wtforms.validators import InputRequired
 from wtforms.validators import Length
+from create_json import create_json
 
 
 class ReadData(object):
@@ -22,48 +23,55 @@ class ReadData(object):
     pic_goal = {"travel": "⛱", "study": "🏫", "work": "🏢", "relocate": "🚜"}
 
     href_goal = {
-        "travel": "travel/",
-        "study": "study/",
-        "work": "work/",
-        "relocate": "relocate/",
+        "travel"     : "travel/",
+        "study"      : "study/",
+        "work"       : "work/",
+        "relocate"   : "relocate/",
         "programming": "programming/",
     }
+
+    try:
+        with open("data.json", "r", encoding="utf-8") as f:
+            f.close()
+    except FileNotFoundError:
+        create_json()
 
     with open("data.json", "r", encoding="utf-8") as f:
         contents = json.load(f)
         teachers = contents["teachers"]
         goals = contents["goals"]
+        f.close()
 
 
 class RequestForm(FlaskForm):
     goals = RadioField(
-        "goal",
-        choices=[
-            (goal_key, goal_value) for goal_key, goal_value in ReadData.goals.items()
-        ],
-        validators=[DataRequired()],
-        default="travel",
+            "goal",
+            choices=[
+                (goal_key, goal_value) for goal_key, goal_value in ReadData.goals.items()
+            ],
+            validators=[DataRequired()],
+            default="travel",
     )
     clientName = StringField("clientName", [InputRequired()])
     clientPhone = StringField(
-        "clientPhone", [Length(min=6, message="Длина номера должна быть не менее 6")]
+            "clientPhone", [Length(min=6, message="Длина номера должна быть не менее 6")]
     )
     time = RadioField(
-        "time",
-        choices=[
-            ("1-2", "1-2 часа в неделю"),
-            ("3-5", "3-5 часа в неделю"),
-            ("5-7", "5-7 часа в неделю"),
-            ("7-10", "7-10 часа в неделю"),
-        ],
-        default="1-2",
+            "time",
+            choices=[
+                ("1-2", "1-2 часа в неделю"),
+                ("3-5", "3-5 часа в неделю"),
+                ("5-7", "5-7 часа в неделю"),
+                ("7-10", "7-10 часа в неделю"),
+            ],
+            default="1-2",
     )
 
 
 class BookingForm(FlaskForm):
     clientName = StringField("clientName", [InputRequired()])
     clientPhone = StringField(
-        "clientPhone", [Length(min=6, message="Длина номера должна быть не менее 6")]
+            "clientPhone", [Length(min=6, message="Длина номера должна быть не менее 6")]
     )
 
 

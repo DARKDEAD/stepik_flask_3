@@ -8,25 +8,20 @@ app.debug = True
 app.config["SECRET_KEY"] = "xv3gavkxc04n3mzx7oksd6q"
 
 
+@app.route("/all_teachers/")
 @app.route("/")
 def render_index():
+    if not request.path == "/all_teachers/":
+        teachers = random.sample(ReadData.teachers, 6)
+    else:
+        teachers = ReadData.teachers
+
     return render_template(
             "index.html",
-            teachers=random.sample(ReadData.teachers, 6),
-            pic_goal=ReadData.pic_goal,
+            teachers=teachers,
+            pic_goals=ReadData.pic_goal,
             goals=ReadData.goals,
-            href_goal=ReadData.href_goal,
-    )
-
-
-@app.route("/all_teachers/")
-def render_all_teachers():
-    return render_template(
-            "index.html",
-            teachers=ReadData.teachers,
-            pic_goal=ReadData.pic_goal,
-            goals=ReadData.goals,
-            href_goal=ReadData.href_goal,
+            href_goals=ReadData.href_goal,
     )
 
 
@@ -41,7 +36,7 @@ def render_search(goal):
             "goal.html",
             teachers=teachers_goals,
             goal=ReadData.goals[goal],
-            pic_goal=ReadData.pic_goal.get(goal, ""),
+            pic_goals=ReadData.pic_goal.get(goal, ""),
     )
 
 

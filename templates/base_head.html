@@ -3,7 +3,7 @@
 <div class="text-center mb-5">
     <div class="btn-group mx-auto mb-0" role="group" aria-label="Basic example">
         {% for goal_key,goal_value in goals.items() %}
-        <a href="/goals/{{ href_goal[goal_key] }}" class="btn btn-outline-secondary">{{ pic_goal[goal_key] }} {{ goal_value }}</a>
+        <a href="/goals/{{ href_goals[goal_key] }}" class="btn btn-outline-secondary">{{ pic_goals[goal_key] }} {{ goal_value }}</a>
         {% endfor %}
     </div>
 </div>
